@@ -17,17 +17,17 @@ Contentful API Object
 const Cful = {
   URL: `https://cdn.contentful.com/spaces/o86estwy272y/environments/master/entries?access_token=QjguO3-gTGFIqcS-OrZ04jjGx-DNCxyH7yKJNwf8GI0&content_type=triviaQ`,
   content: { question: null, optionA: null, optionB: null, optionC: null, optionD: null, answer: null },
-  payload: {},
+  payload: null,
 
   peek() {
-    console.log(`content is: ${this.content}`);
-    console.log(`payload is: ${this.payload}`);
+    console.log(this.content);
+    console.log(this.payload);
   },
 
   load() {
     const promise = $.ajax(this.URL).then((data) => {
       this.payload = data.items;
-      Game.next()
+      Game.next();
     }, (error) => {
       console.log("Error accessing API")
     })
@@ -40,7 +40,7 @@ const Cful = {
     this.content.optionC = this.payload[idx].fields.c;
     this.content.optionD = this.payload[idx].fields.d;
     this.content.answer = this.payload[idx].fields.answer;
-    remove ? delete this.payload[idx] : null
+    remove ? this.payload.splice(idx,1) : null
   }
 }
 
@@ -49,24 +49,20 @@ Trivia Game Object
 **************************************/
 const Game = {
   playerOneScore: 0,
-  PlayerTwoScore: 0,
+  playerTwoScore: 0,
   round: 0,
   turn: 2,
 
-  fill(answer = false) {
+  fill(end = false, answer ) {
     $question.text(Cful.content.question);
     $optionA.text(Cful.content.optionA);
     $optionB.text(Cful.content.optionB);
     $optionC.text(Cful.content.optionC);
     $optionD.text(Cful.content.optionD);
     $playerOne.text(`Player 1: ${this.playerOneScore}`);
-    $playerTwo.text(`Player 2: ${this.PlayerTwoScore}`);
+    $playerTwo.text(`Player 2: ${this.playerTwoScore}`);
     $round.text(`Round: ${this.round}`);
-    answer ? $answer.text(`The correct answer was: ${Cful.content.answer}`) : null
-  },
-
-  check(event) {
-    console.log(event);
+    end ? $answer.text(answer) : null
   },
 
   toggle() {
@@ -74,15 +70,26 @@ const Game = {
     if (this.turn === 1) {
       this.turn = 2;
     } else {
-      this.turn === 1
+      this.turn = 1
     }
   },
 
   next() {
-    random = Math.floor(Math.random * Cful.payload.length - 1);
+    random = Math.floor(Math.random() * Cful.payload.length - 1);
     Cful.extract(random, true);
-    this.toggle;
+    this.toggle();
     this.fill();
+  },
+
+  check(event) {
+    if (event.target.innerText === Cful.content.answer) {
+      this.fill(true, `You got it right! The answer was in fact ${Cful.content.answer}. Player ${this.turn} is awarded one point!`);
+      this.turn === 1 ? this.playerOneScore++ : this.playerTwoScore++
+      setTimeout(this.next(), 1500);
+    } else {
+      this.fill(true, `Unfortunately that is incorrect, ${Cful.content.answer} was the correct answer.`)
+      setTimeout(this.next(), 1500);
+    }
   }
 }
 
