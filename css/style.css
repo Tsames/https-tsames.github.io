@@ -1,0 +1,27 @@
+body {
+  display: grid;
+  grid-template-rows: repeat(20%,5) ;
+  grid-template-columns: repeat(10%,10);
+  justify-content: center;
+  text-align: center;
+  background-color: gray;
+  color: white;
+}
+.score-board {
+  grid-column-start: 1;
+  grid-column-end: span(5);
+  background-color: darkgrey;
+  display:flex;
+  justify-content: space-between;
+
+}
+button {
+  width: 10em;
+  height: 5em;
+}
+button#reset {
+  width: 5em;
+  height: 3em;
+  background-color: red;
+  color:white;
+}
