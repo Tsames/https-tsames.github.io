@@ -25,15 +25,16 @@ const Cful = {
       this.payload = [];
       for (let i = 0; i <= $slider[0].valueAsNumber - 1; i++) {
         const content = { question: null, optionA: null, optionB: null, optionC: null, optionD: null, answer: null }
-        content.question = data.items[i].fields.question;
-        content.optionA = data.items[i].fields.a;
-        content.optionB = data.items[i].fields.b;
-        content.optionC = data.items[i].fields.c;
-        content.optionD = data.items[i].fields.d;
-        content.answer = data.items[i].fields.answer;
+        const random = Math.floor(Math.random() * data.items.length - 1);
+        content.question = data.items[random].fields.question;
+        content.optionA = data.items[random].fields.a;
+        content.optionB = data.items[random].fields.b;
+        content.optionC = data.items[random].fields.c;
+        content.optionD = data.items[random].fields.d;
+        content.answer = data.items[random].fields.answer;
         this.payload.push(content);
+        data.items.splice(random,1);
       }
-      Game.questions = $slider[0].valueAsNumber;
       Game.next();
     }, (error) => {
       console.log("Error accessing API")
