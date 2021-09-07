@@ -13,7 +13,7 @@ A trivia game web app that keeps track of each player's score, announces a winne
 
 ## Getting Started
 
-Click here to redirect to the deployed app.
+Click [here](https://tsames.github.io/https-tsames.github.io/) to redirect to the deployed app.
 
 ## Future Enhancements
 
