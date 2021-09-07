@@ -54,11 +54,18 @@ const Game = {
 
   toggle() {
     this.round++;
-    this.turn === 1 ? this.turn = 2 : this.turn = 1
+    if (this.turn === 1) {
+      this.turn = 2
+      $playerTwo.addClass('turn');
+      $playerOne.removeClass('turn');
+    } else {
+      this.turn = 1
+      $playerOne.addClass('turn');
+      $playerTwo.removeClass('turn');
+    } 
   },
 
   extract() {
-    console.log(Cful.payload);
     if (Cful.payload.length >= 1) {
       const random = Math.floor(Math.random() * Cful.payload.length);
       this.current = Cful.payload[random]
@@ -85,7 +92,7 @@ const Game = {
     $optionD.text(this.current.optionD);
     $playerOne.text(`Player 1: ${this.playerOneScore}`);
     $playerTwo.text(`Player 2: ${this.playerTwoScore}`);
-    $round.text(`Round: ${this.round}`);
+    $round.text(`Round ${this.round}`);
     end ? $answer.text(answer) : $answer.text("");
   },
 
@@ -103,15 +110,19 @@ const Game = {
   check(event) {
     if (event.target.innerText === this.current.answer) {
       this.turn === 1 ? this.playerOneScore++ : this.playerTwoScore++
+      $(event.target).addClass('correct')
       this.fill(true, `You got it right! The answer was in fact ${this.current.answer}. Player ${this.turn} is awarded one point!`);
-      // setTimeout(function () {
-      Game.next()
-      // }, 3000);
+      setTimeout(function () {
+        $(event.target).removeClass('correct')
+        Game.next()
+      }, 3500);
     } else {
-      this.fill(true, `Unfortunately that is incorrect, ${this.current.answer} was the correct answer.`)
-      // setTimeout(function () {
-      Game.next();
-      // }, 3000);
+      $(event.target).addClass('incorrect');
+      this.fill(true, `Unfortunately that is incorrect, ${this.current.answer} was the correct answer.`);
+      setTimeout(function () {
+        $(event.target).removeClass('incorrect');
+        Game.next();
+      }, 3500);
     }
   }
 }
