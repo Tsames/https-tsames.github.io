@@ -9,6 +9,12 @@ body {
 .top{
   display:flex;
   justify-content: space-between;
+  text-align: center;
+}
+.scoreboard{
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
 }
 .question {
   text-align: center;
@@ -60,5 +66,5 @@ label {
   color:darkgrey;
 }
 #victory{
-  color:rgba(20, 236, 31, 0.774);
+  color:rgba(46, 166, 221, 0.774);
 }

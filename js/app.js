@@ -102,7 +102,7 @@ const Game = {
     if (this.current === null) {
       this.playerOneScore > this.playerTwoScore ? this.turn = 1 : this.turn = 2;
       $answer.text(`Thats the last of the questions!`);
-      $victory.text(`Congratulations Player ${ this.turn }, you win!`);
+      $victory.text(`Player ${ this.turn } wins!`);
     } else {
       this.toggle();
       this.fill();
