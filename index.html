@@ -12,7 +12,6 @@
   <link rel="stylesheet" href="./css/style.css">
   <title>Trivia Game</title>
 </head>
-
 <body>
   <nav class="navbar navbar-fixed-top navbar-inverse">
     <div class="container-fluid">
@@ -21,15 +20,16 @@
       </div>
       <ul class="nav navbar-nav">
         <li>
-          <label for="vol">Number of Questions:</label>
+          <label for="vol">Number of Questions</label>
           <input type="range" id="slider" min="1" max="39" step="2" class="range navbar-range">
         </li>
-        <li><button class="btn btn-danger navbar-btn" id="reset">New Game</button></li>
+        <li><button class="btn btn-basic navbar-btn" id="reset">New Game</button></li>
       </ul>
     </div>
   </nav>
   <div class="scoreboard row">
-    <h2 class="col-sm-10" id="round"></h2>
+    <h2 class="col-sm-5" id="round"></h2>
+    <h2 class="col-sm-5" id="victory"></h2>
     <div class="col-sm-2">
       <h4 id="player1-score"></h4>
       <h4 id="player2-score"></h4>
@@ -39,13 +39,13 @@
     <h3 class="col-sm-12" id="question"></h3>
   </div>
   <div class="choices row">
-    <button class="col-sm-3" id="a"></button>
-    <button class="col-sm-3" id="b"></button>
-    <button class="col-sm-3" id="c"></button>
-    <button class="col-sm-3" id="d"></button>
+    <button class="col-sm-3 btn btn-primary btn-lg" id="a"></button>
+    <button class="col-sm-3 btn btn-primary btn-lg" id="b"></button>
+    <button class="col-sm-3 btn btn-primary btn-lg" id="c"></button>
+    <button class="col-sm-3 btn btn-primary btn-lg" id="d"></button>
   </div>
   <div class="output row">
-    <h3 class="col-sm-12" id="answer"></h3>
+    <h4 class="col-sm-12" id="answer"></h4>
   </div>
 </body>
 

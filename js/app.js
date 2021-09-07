@@ -12,6 +12,7 @@ const $playerTwo = $('#player2-score');
 const $round = $('#round');
 const $reset = $('#reset');
 const $slider = $('#slider');
+const $victory = $('#victory');
 
 /**************************************
 Contentful API Object
@@ -25,7 +26,7 @@ const Cful = {
       this.payload = [];
       for (let i = 0; i <= $slider[0].valueAsNumber - 1; i++) {
         const content = { question: null, optionA: null, optionB: null, optionC: null, optionD: null, answer: null }
-        const random = Math.floor(Math.random() * data.items.length - 1);
+        const random = Math.floor(Math.random() * (data.items.length - 1));
         content.question = data.items[random].fields.question;
         content.optionA = data.items[random].fields.a;
         content.optionB = data.items[random].fields.b;
@@ -100,7 +101,8 @@ const Game = {
     this.extract();
     if (this.current === null) {
       this.playerOneScore > this.playerTwoScore ? this.turn = 1 : this.turn = 2;
-      $answer.text(`Thats the last of the questions! Congratulations Player ${this.turn}, you win!`);
+      $answer.text(`Thats the last of the questions!`);
+      $victory.text(`Congratulations Player ${ this.turn }, you win!`);
     } else {
       this.toggle();
       this.fill();
@@ -110,17 +112,17 @@ const Game = {
   check(event) {
     if (event.target.innerText === this.current.answer) {
       this.turn === 1 ? this.playerOneScore++ : this.playerTwoScore++
-      $(event.target).addClass('correct')
-      this.fill(true, `You got it right! The answer was in fact ${this.current.answer}. Player ${this.turn} is awarded one point!`);
+      $(event.target).addClass('btn-success').removeClass('btn-primary');
+      this.fill(true, `You got it right! Player ${this.turn} is awarded one point!`);
       setTimeout(function () {
-        $(event.target).removeClass('correct')
+        $(event.target).removeClass('btn-success').addClass('btn-primary')
         Game.next()
       }, 3500);
     } else {
-      $(event.target).addClass('incorrect');
-      this.fill(true, `Unfortunately that is incorrect, ${this.current.answer} was the correct answer.`);
+      $(event.target).addClass('btn-danger').removeClass('btn-primary');
+      this.fill(true, `Sorry, thats incorrect, ${this.current.answer} was the correct answer.`);
       setTimeout(function () {
-        $(event.target).removeClass('incorrect');
+        $(event.target).removeClass('btn-danger').addClass('btn-primary');
         Game.next();
       }, 3500);
     }
@@ -149,3 +151,4 @@ $reset.on('click', function (evt) {
 /**************************************
 Initial Load
 **************************************/
+Cful.load();
